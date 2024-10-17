@@ -1,9 +1,32 @@
 <?php 
+
+include("../db/db.php");
 if(isset($_POST['signup'])) {
-  echo "User name is ".$_POST['username']."<br/>";
-  echo "Email name is ".$_POST['email']."<br/>";
-  echo "Password name is ".$_POST['password']."<br>";
+
+  $username=$_POST['username'];
+  $username=$_POST['email'];
+  $username=$_POST['password'];
  
+
+  $user= $conn->prepare("INSERT INTO users(`id`,`username`,`email`,`password`)VALUES(NULL,?,?,?)");
+
+  if($user === false) {
+    die("Error in preparing SQL statement: " . $conn->error);
+  }
+  $user->bind_param("sss", $username, $email, $password);
+
+  
+  $result = $user->execute();
+
+  if($result){
+
+    echo "New user registerd";
+
+  } else {
+
+    echo "New user not registerd";
+
+  }
 }
 
 ?>
