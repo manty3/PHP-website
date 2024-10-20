@@ -1,32 +1,43 @@
 <?php 
-
+session_start();
 include("../db/db.php");
-if(isset($_POST['signup'])) {
 
-  $username=$_POST['username'];
-  $username=$_POST['email'];
-  $username=$_POST['password'];
- 
+if (isset($_POST['signup'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-  $user= $conn->prepare("INSERT INTO users(`id`,`username`,`email`,`password`)VALUES(NULL,?,?,?)");
+    // Prepare an SQL statement to prevent SQL injection
+    $user = $conn->prepare("INSERT INTO users(`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?)");
 
-  if($user === false) {
-    die("Error in preparing SQL statement: " . $conn->error);
-  }
-  $user->bind_param("sss", $username, $email, $password);
+    if ($user === false) {
+        die("Error in preparing SQL statement: " . $conn->error);
+    }
 
-  
-  $result = $user->execute();
+    // Bind parameters (s means string for each variable)
+    $user->bind_param("sss", $username, $email, $password);
 
-  if($result){
+    // Execute the query
+    $result = $user->execute();
 
-    echo "New user registerd";
+    if ($result) {
+        echo "New user registered";
+        $_SESSION["user"]=["username"=>$username,"email"=>$email];
+        header("location:/FIRSTPROJECT");
+    } else {
+        echo "New user not registered: " . $user->error;
+    }
 
-  } else {
+    // Close the prepared statement and connection
+    $user->close();
+    $conn->close();
+}else if (isset($_POST['signup'])) {
 
-    echo "New user not registerd";
 
-  }
+    
 }
+
+
+
 
 ?>
