@@ -8,7 +8,7 @@
     </div>
     <div class="col-6 offset-sm-3 mb-4">
     <label for="password" class="form-label">password</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="enter your password" name="password">
+    <input type="password" class="form-control" id="exampleInputEmail1" placeholder="enter your password" name="password">
     </div>
   <!-- <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
