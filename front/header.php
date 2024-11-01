@@ -8,44 +8,29 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
 
-
         <?php
+        session_start(); // Ensure the session is started
 
-
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
-
-
-
-        if ($_SESSION['user']['username']) { ?>
+        // Check if 'user' exists in the session and is an array
+        if (isset($_SESSION['user']) && is_array($_SESSION['user']) && isset($_SESSION['user']['username'])) { ?>
           <li class="nav-item">
-            <a class="nav-link" href="?login=true">Logout</a>
+            <a class="nav-link" href="./server/requests.php?logout=true">Logout (<?php echo ucfirst($_SESSION['user']['username']); ?>)</a>
           </li>
-
-        <?php } ?>
-
-
-        <?php
-
-        if (!$_SESSION['user']['username']) { ?>
+          <li class="nav-item">
+            <a class="nav-link" href="?ask=true">Ask A Question</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="?u-id=<?php echo $_SESSION['user']['user_id']; ?>">My Questions</a>
+          </li>
+        <?php } else { ?>
+          <!-- Display Login and SignUp options if 'user' is not set -->
           <li class="nav-item">
             <a class="nav-link" href="?login=true">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="?signup=true">Signup</a>
+            <a class="nav-link" href="?signup=true">SignUp</a>
           </li>
-
         <?php } ?>
-
-
-
-
-
-
-
-
-
 
         <li class="nav-item">
           <a class="nav-link" href="#">Items</a>
